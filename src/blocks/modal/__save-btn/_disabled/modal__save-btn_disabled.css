@@ -1,0 +1,15 @@
+.modal__save-btn_disabled {
+  opacity: 0.2;
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  box-sizing: border-box;
+  border-radius: 2px;
+  cursor: default;
+}
+
+.modal__save-btn_disabled:hover {
+  background-color: white;
+  border-color: black;
+}
+
