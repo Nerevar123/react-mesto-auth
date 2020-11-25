@@ -3,15 +3,10 @@
   padding-left: 0;
   margin-top: 0;
   margin-bottom: 0;
-  display: -ms-grid;
   display: grid;
   grid-template-columns: repeat(auto-fill, 282px);
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-column-gap: 18px;
-     -moz-column-gap: 18px;
-          column-gap: 18px;
+  justify-content: center;
+  column-gap: 18px;
   row-gap: 20px;
   color: black;
 }

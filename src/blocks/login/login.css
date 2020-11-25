@@ -1,0 +1,38 @@
+.login {
+  max-width: 358px;
+  margin: auto;
+  padding-top: 60px;
+  text-align: center;
+}
+
+.login__title {
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 1.2;
+  margin-top: 0px;
+  margin-bottom: 38px;
+}
+
+.login__fields {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 230px;
+}
+
+.login__text {
+  font-size: 14px;
+  line-height: 1.21;
+  margin-top: 16px;
+  margin-bottom: 0;
+}
+
+.login__link {
+  color: #fff;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.login__link:hover {
+  opacity: 0.6;
+}

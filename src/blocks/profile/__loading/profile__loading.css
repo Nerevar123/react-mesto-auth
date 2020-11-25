@@ -3,12 +3,11 @@
   font-size: 64px;
   line-height: 100px;
   margin: auto;
-  -o-text-overflow: ellipsis;
-     text-overflow: ellipsis;
+  text-overflow: ellipsis;
   overflow: hidden;
 }
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 768px) {
   .profile__loading {
     font-size: 32px;
   }

@@ -40,17 +40,17 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isSaving }) {
         <fieldset className="modal__fields">
           <label className="modal__field">
             <input type="text" className={`modal__input ${errors.nickname && "modal__input_type_error"}`}
-                   name="nickname" id="nickname-input" required minLength="2" maxLength="40"
+                   name="nickname" required minLength="2" maxLength="40"
                    pattern="[a-zA-Zа-яА-Я -]{1,}" value={values.nickname || ''} onChange={handleChange} />
-            <span className={`modal__placeholder ${values.nickname && "modal__placeholder_is-fixed"}`} id="nickname-input-placeholder">Имя</span>
-            <span id="nickname-input-error" className={`modal__input-error ${errors.nickname && "modal__input-error_active"}`}>{errors.nickname || ''}</span>
+            <span className={`modal__placeholder ${values.nickname && "modal__placeholder_is-fixed"}`}>Имя</span>
+            <span className={`modal__input-error ${errors.nickname && "modal__input-error_active"}`}>{errors.nickname || ''}</span>
           </label>
           <label className="modal__field">
             <input type="text" className={`modal__input ${errors.description && "modal__input_type_error"}`}
-                   name="description" id="description-input" required minLength="2" maxLength="200"
+                   name="description" required minLength="2" maxLength="200"
                    value={values.description || ''} onChange={handleChange} />
-            <span className={`modal__placeholder ${values.description && "modal__placeholder_is-fixed"}`} id="description-input-placeholder">О себе</span>
-            <span id="description-input-error" className={`modal__input-error ${errors.description && "modal__input-error_active"}`}>{errors.description || ''}</span>
+            <span className={`modal__placeholder ${values.description && "modal__placeholder_is-fixed"}`}>О себе</span>
+            <span className={`modal__input-error ${errors.description && "modal__input-error_active"}`}>{errors.description || ''}</span>
           </label>
         </fieldset>
       )}
