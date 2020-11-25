@@ -1,5 +1,5 @@
 import React from "react";
-import { HashRouter, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import Register from "./Register";
 import Login from "./Login";
 import Header from "./Header";
@@ -14,6 +14,7 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import { api } from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import useFormWithValidation from "../hooks/useFormWithValidation";
 
 function App() {
   const [currentUser, setCurrentUser] = React.useState();
@@ -121,19 +122,25 @@ function App() {
     setIsLoggedIn(!isLoggedIn);
   }
 
+  const {
+    values,
+    handleChange,
+    errors,
+  } = useFormWithValidation();
+
   return (
     <div className="page__content">
       <CurrentUserContext.Provider value={currentUser}>
-        <HashRouter basename="/">
-          <Header />
-          <Switch>
-            <Route path="/sign-up">
-              <Register />
-            </Route>
-            <Route path="/sign-in">
-              <Login handleLogin={handleLogin} />
-            </Route>
-            <ProtectedRoute exact path="/" loggedIn={isLoggedIn}>
+        <Header />
+        <Switch>
+          <Route path="/sign-up">
+            <Register />
+          </Route>
+          <Route path="/sign-in">
+            <Login handleLogin={handleLogin} values={values} />
+          </Route>
+          <ProtectedRoute exact path="/" loggedIn={isLoggedIn}>
+            <>
               <Main
                 onEditProfile={handleEditProfileClick}
                 onAddPlace={handleAddPlaceClick}
@@ -144,64 +151,64 @@ function App() {
                 onDeleteClick={handleDeleteClick}
               />
               <Footer />
-            </ProtectedRoute>
-          </Switch>
-          {isEditProfilePopupOpen ? (
-            <ClosablePopup>
-              <EditProfilePopup
-                isOpen={isEditProfilePopupOpen}
-                onClose={closeAllPopups}
-                onUpdateUser={handleUpdateUser}
-                isSaving={isSaving}
-              />
-            </ClosablePopup>
-          ) : (
-            ""
-          )}
-          {isAddPlacePopupOpen ? (
-            <ClosablePopup>
-              <AddPlacePopup
-                isOpen={isAddPlacePopupOpen}
-                onClose={closeAllPopups}
-                onAddPlace={handleAddPlaceSubmit}
-                isSaving={isSaving}
-              />
-            </ClosablePopup>
-          ) : (
-            ""
-          )}
-          {isEditAvatarPopupOpen ? (
-            <ClosablePopup>
-              <EditAvatarPopup
-                isOpen={isEditAvatarPopupOpen}
-                onClose={closeAllPopups}
-                onUpdateAvatar={handleUpdateAvatar}
-                isSaving={isSaving}
-              />
-            </ClosablePopup>
-          ) : (
-            ""
-          )}
-          {selectedCard.link ? (
-            <ClosablePopup>
-              <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-            </ClosablePopup>
-          ) : (
-            ""
-          )}
-          {isConfirmPopupOpen ? (
-            <ClosablePopup>
-              <ConfirmPopup
-                isOpen={isConfirmPopupOpen}
-                onClose={closeAllPopups}
-                onConfirm={handleCardDelete}
-                isSaving={isSaving}
-              />
-            </ClosablePopup>
-          ) : (
-            ""
-          )}
-        </HashRouter>
+            </>
+          </ProtectedRoute>
+        </Switch>
+        {isEditProfilePopupOpen ? (
+          <ClosablePopup>
+            <EditProfilePopup
+              isOpen={isEditProfilePopupOpen}
+              onClose={closeAllPopups}
+              onUpdateUser={handleUpdateUser}
+              isSaving={isSaving}
+            />
+          </ClosablePopup>
+        ) : (
+          ""
+        )}
+        {isAddPlacePopupOpen ? (
+          <ClosablePopup>
+            <AddPlacePopup
+              isOpen={isAddPlacePopupOpen}
+              onClose={closeAllPopups}
+              onAddPlace={handleAddPlaceSubmit}
+              isSaving={isSaving}
+            />
+          </ClosablePopup>
+        ) : (
+          ""
+        )}
+        {isEditAvatarPopupOpen ? (
+          <ClosablePopup>
+            <EditAvatarPopup
+              isOpen={isEditAvatarPopupOpen}
+              onClose={closeAllPopups}
+              onUpdateAvatar={handleUpdateAvatar}
+              isSaving={isSaving}
+            />
+          </ClosablePopup>
+        ) : (
+          ""
+        )}
+        {selectedCard.link ? (
+          <ClosablePopup>
+            <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+          </ClosablePopup>
+        ) : (
+          ""
+        )}
+        {isConfirmPopupOpen ? (
+          <ClosablePopup>
+            <ConfirmPopup
+              isOpen={isConfirmPopupOpen}
+              onClose={closeAllPopups}
+              onConfirm={handleCardDelete}
+              isSaving={isSaving}
+            />
+          </ClosablePopup>
+        ) : (
+          ""
+        )}
       </CurrentUserContext.Provider>
     </div>
   );

@@ -2,8 +2,8 @@ import React from "react";
 import cn from "classnames";
 import useFormWithValidation from '../hooks/useFormWithValidation';
 
-function Label({ name, placeholder, isBlack, ...props }) {
-  const { values, errors, handleChange } = useFormWithValidation();
+function Label({ name, placeholder, isBlack, values, ...props }) {
+  const {  errors, handleChange } = useFormWithValidation();
 
   return (
     <label className="modal__field">

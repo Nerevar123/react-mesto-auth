@@ -5,9 +5,8 @@ import SaveButton from "./SaveButton";
 import cn from "classnames";
 import useFormWithValidation from "../hooks/useFormWithValidation";
 
-function Login() {
+function Login({values}) {
   const {
-    values,
     handleChange,
     errors,
     isValid,
@@ -45,8 +44,9 @@ function Login() {
             minLength="2"
             maxLength="40"
             pattern="[a-zA-Zа-яА-Я -]{1,}"
+            values={values}
           />
-          <Label name="avatar" placeholder="Пароль" isBlack type="url" required />
+          <Label name="avatar" placeholder="Пароль" values={values} isBlack type="url" required />
         </fieldset>
         <SaveButton
           buttonText="Зарегистрироваться"
