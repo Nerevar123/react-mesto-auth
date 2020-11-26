@@ -1,0 +1,8 @@
+@import url(./__fields/form__fields.css);
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+}

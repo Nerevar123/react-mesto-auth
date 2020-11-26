@@ -1,23 +1,23 @@
-import React from 'react';
-import PopupWithForm from './PopupWithForm';
+import React from "react";
+import PopupWithForm from "./PopupWithForm";
 
-function ConfirmPopup(props) {
+function ConfirmPopup({ isOpen, onClose, isSaving, onConfirm }) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    props.onConfirm();
-  };
+    onConfirm();
+  }
 
   return (
-  <PopupWithForm
-    title="Вы уверены?"
-    name="confirm"
-    buttonText="Да"
-      isOpen={props.isOpen}
-      onClose={props.onClose}
+    <PopupWithForm
+      title="Вы уверены?"
+      name="confirm"
+      buttonText="Да"
+      isOpen={isOpen}
+      onClose={onClose}
       onSubmit={handleSubmit}
-      isSaving={props.isSaving}
-  />
+      isSaving={isSaving}
+    />
   );
 }
 

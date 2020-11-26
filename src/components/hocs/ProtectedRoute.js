@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
 function ProtectedRoute(props) {
-  const {children, ...rest} = props;
+  const { children, ...rest } = props;
   return (
     <Route>
       {() =>
@@ -14,6 +14,6 @@ function ProtectedRoute(props) {
       }
     </Route>
   );
-};
+}
 
 export default ProtectedRoute;

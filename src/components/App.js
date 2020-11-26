@@ -122,25 +122,27 @@ function App() {
     setIsLoggedIn(!isLoggedIn);
   }
 
-  const {
-    values,
-    handleChange,
-    errors,
-  } = useFormWithValidation();
+  const validation = useFormWithValidation();
 
   return (
     <div className="page__content">
       <CurrentUserContext.Provider value={currentUser}>
-        <Header />
         <Switch>
           <Route path="/sign-up">
-            <Register />
+            <>
+              <Header button="login" />
+              <Register validation={validation} />
+            </>
           </Route>
           <Route path="/sign-in">
-            <Login handleLogin={handleLogin} values={values} />
+            <>
+              <Header button="register" />
+              <Login handleLogin={handleLogin} validation={validation} />
+            </>
           </Route>
           <ProtectedRoute exact path="/" loggedIn={isLoggedIn}>
             <>
+              <Header button="isLogged" />
               <Main
                 onEditProfile={handleEditProfileClick}
                 onAddPlace={handleAddPlaceClick}
@@ -161,6 +163,7 @@ function App() {
               onClose={closeAllPopups}
               onUpdateUser={handleUpdateUser}
               isSaving={isSaving}
+              validation={validation}
             />
           </ClosablePopup>
         ) : (
@@ -173,6 +176,7 @@ function App() {
               onClose={closeAllPopups}
               onAddPlace={handleAddPlaceSubmit}
               isSaving={isSaving}
+              validation={validation}
             />
           </ClosablePopup>
         ) : (
@@ -185,6 +189,7 @@ function App() {
               onClose={closeAllPopups}
               onUpdateAvatar={handleUpdateAvatar}
               isSaving={isSaving}
+              validation={validation}
             />
           </ClosablePopup>
         ) : (

@@ -1,18 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import Form from "./Form";
 import Label from "./Label";
-import SaveButton from "./SaveButton";
-import cn from "classnames";
-import useFormWithValidation from "../hooks/useFormWithValidation";
 
-function Login({values}) {
-  const {
-    handleChange,
-    errors,
-    isValid,
-    setIsValid,
-    resetForm,
-  } = useFormWithValidation();
+function Login({ validation, isSaving }) {
+  const { values, errors, handleChange, isValid, resetForm } = validation;
 
   React.useEffect(() => {
     resetForm();
@@ -21,46 +12,45 @@ function Login({values}) {
   function handleSubmit(e) {
     e.preventDefault();
     console.log(values);
+    resetForm();
   }
 
   return (
     <section className="login">
-      <h2 className="login__title">Регистрация</h2>
-      <form
-        className="modal__form"
+      <h2 className="login__title">Вход</h2>
+      <Form
         name="nickname"
-        method="GET"
-        action="#"
-        noValidate
         onSubmit={handleSubmit}
-      >
-        <fieldset className="login__fields">
-          <Label
-            name="nickname"
-            placeholder="Email"
-            isBlack
-            type="text"
-            required
-            minLength="2"
-            maxLength="40"
-            pattern="[a-zA-Zа-яА-Я -]{1,}"
-            values={values}
-          />
-          <Label name="avatar" placeholder="Пароль" values={values} isBlack type="url" required />
-        </fieldset>
-        <SaveButton
-          buttonText="Зарегистрироваться"
-          isDisabled={false}
-          isSaving={false}
-          isWhite
-        />
-        <p className="login__text">
-          Уже зарегистрированы?{" "}
-          <Link to="/sign-up" className="login__link">
-            Войти
-          </Link>
-        </p>
-      </form>
+        isDisabled={!isValid}
+        isSaving={isSaving}
+        isBlack={true}
+        buttonText="Войти"
+        children={
+          <fieldset className="login__fields">
+            <Label
+              values={values}
+              onChange={handleChange}
+              errors={errors}
+              name="email"
+              placeholder="Email"
+              isBlack
+              type="email"
+              required
+            />
+            <Label
+              values={values}
+              onChange={handleChange}
+              errors={errors}
+              name="password"
+              placeholder="Пароль"
+              isBlack
+              type="password"
+              required
+              minLength="4"
+            />
+          </fieldset>
+        }
+      ></Form>
     </section>
   );
 }

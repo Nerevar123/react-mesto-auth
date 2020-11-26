@@ -1,33 +1,28 @@
 import React from "react";
 import cn from "classnames";
-import useFormWithValidation from '../hooks/useFormWithValidation';
 
-function Label({ name, placeholder, isBlack, values, ...props }) {
-  const {  errors, handleChange } = useFormWithValidation();
-
+function Label({ name, placeholder, isBlack, values, errors, ...props }) {
   return (
-    <label className="modal__field">
+    <label className="label">
       <input
         name={name}
-        className={cn("input", {
-          input_type_error: errors[name],
-          input_theme_black: isBlack,
-
+        className={cn("label__input", {
+          label__input_type_error: errors[name],
+          label__input_theme_black: isBlack,
         })}
         value={values[name] || ""}
-        onChange={handleChange}
         {...props}
       />
       <span
-        className={cn("modal__placeholder", {
-          "modal__placeholder_is-fixed": values[name],
+        className={cn("label__placeholder", {
+          "label__placeholder_is-fixed": values[name],
         })}
       >
         {placeholder}
       </span>
       <span
-        className={cn("modal__input-error", {
-          "modal__input-error_active": errors[name],
+        className={cn("label__error", {
+          "label__error_active": errors[name],
         })}
       >
         {errors[name] || ""}

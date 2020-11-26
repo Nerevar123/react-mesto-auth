@@ -12,15 +12,6 @@
   background-color: rgba(0, 0, 0, 0.8);
 }
 
-.save-btn_theme_white {
-  background-color: #fff;
-  color: #000;
-}
-
-.save-btn_theme_white:hover {
-  background-color: rgba(255, 255, 255, 0.8);
-}
-
 @media screen and (max-width: 768px){
   .save-btn {
     min-height: 40px;

@@ -1,14 +1,23 @@
-import React from 'react';
+import React from "react";
+import cn from "classnames";
 
-function ImagePopup(props) {
+function ImagePopup({ card, onClose }) {
   return (
-    <section className={`modal modal_type_lightbox ${props.card.link ? 'modal_opened' : ''}`}>
+    <section
+      className={cn("modal", "modal_type_lightbox", {
+        modal_opened: card.link,
+      })}
+    >
       <div className="modal__lightbox">
         <figure className="modal__figure">
-          <img src={props.card.link} alt={props.card.link} className="modal__image" />
-          <figcaption className="modal__caption">{props.card.name}</figcaption>
+          <img src={card.link} alt={card.link} className="modal__image" />
+          <figcaption className="modal__caption">{card.name}</figcaption>
         </figure>
-        <button className="modal__close-btn button" type="button" onClick={props.onClose}></button>
+        <button
+          className="modal__close-btn button"
+          type="button"
+          onClick={onClose}
+        ></button>
       </div>
     </section>
   );

@@ -1,24 +1,30 @@
 import React from "react";
+import SaveButton from "./SaveButton";
 
-function Form(props) {
+function Form({
+  name,
+  children,
+  onSubmit,
+  isDisabled,
+  isSaving,
+  isBlack,
+  buttonText,
+}) {
   return (
     <form
-      className="modal__form"
-      name={props.name}
+      className="form"
+      name={name}
       method="GET"
       noValidate
-      onSubmit={props.onSubmit}
+      onSubmit={onSubmit}
     >
-      {props.children}
-      <button
-        className={`modal__save-btn button ${
-          props.isDisabled && "modal__save-btn_disabled"
-        }`}
-        type="submit"
-        disabled={props.isDisabled}
-      >
-        {props.isSaving ? "Загрузка..." : props.buttonText}
-      </button>
+      {children}
+      <SaveButton
+        buttonText={buttonText}
+        isDisabled={isDisabled}
+        isSaving={isSaving}
+        isBlack={isBlack}
+      />
     </form>
   );
 }

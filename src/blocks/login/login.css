@@ -26,13 +26,3 @@
   margin-top: 16px;
   margin-bottom: 0;
 }
-
-.login__link {
-  color: #fff;
-  text-decoration: none;
-  transition: 0.3s;
-}
-
-.login__link:hover {
-  opacity: 0.6;
-}

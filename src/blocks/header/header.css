@@ -1,4 +1,6 @@
 @import url(./__logo/header__logo.css);
+@import url(./__text-container/header__text-container.css);
+@import url(./__name/header__name.css);
 
 .header {
   padding-top: 44px;
