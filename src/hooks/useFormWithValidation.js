@@ -9,8 +9,8 @@ function useFormWithValidation() {
     const target = e.target;
     const value = target.value;
     const name = target.name;
-    setValues({...values, [name]: value});
-    setErrors({...errors, [name]: target.validationMessage });
+    setValues({ ...values, [name]: value });
+    setErrors({ ...errors, [name]: target.validationMessage });
     setIsValid(target.closest("form").checkValidity());
   };
 
@@ -23,7 +23,15 @@ function useFormWithValidation() {
     [setValues, setErrors, setIsValid]
   );
 
-  return { values, handleChange, errors, isValid, setIsValid, resetForm };
+  return {
+    values,
+    handleChange,
+    errors,
+    isValid,
+    setIsValid,
+    setErrors,
+    resetForm,
+  };
 }
 
 export default useFormWithValidation;

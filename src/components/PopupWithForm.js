@@ -11,11 +11,11 @@ function PopupWithForm({
   onSubmit,
   isSaving,
   children,
-  isDisabled = false,
+  isDisabled,
 }) {
   return (
     <section
-      className={cn("modal", `modal_type_${name}`, {"modal_opened": isOpen})}
+      className={cn("modal", `modal_type_${name}`, { modal_opened: isOpen })}
     >
       <div className="modal__container">
         <h3 className="modal__title">{title}</h3>

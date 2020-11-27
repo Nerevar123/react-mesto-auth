@@ -1,9 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import cn from "classnames";
 import Form from "./Form";
 import Label from "./Label";
+import InfoTooltip from "./InfoTooltip";
+import ClosablePopup from "./hocs/ClosablePopup";
 
-function Register({ validation, isSaving }) {
+function Register({
+  validation,
+  isSaving,
+  onRegister,
+  isSuccess,
+  isOpen,
+  onClose,
+}) {
   const { values, errors, handleChange, isValid, resetForm } = validation;
 
   React.useEffect(() => {
@@ -12,8 +22,10 @@ function Register({ validation, isSaving }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(values);
-    resetForm();
+    onRegister({
+      email: values.email || "",
+      password: values.password || "",
+    });
   }
 
   return (
@@ -24,7 +36,8 @@ function Register({ validation, isSaving }) {
         onSubmit={handleSubmit}
         isDisabled={!isValid}
         isSaving={isSaving}
-        isWhite={true}
+        isBlack
+        errors={errors}
         buttonText="Зарегистрироваться"
         children={
           <fieldset className="login__fields">
@@ -37,6 +50,7 @@ function Register({ validation, isSaving }) {
               isBlack
               type="email"
               required
+              autoComplete="username"
             />
             <Label
               values={values}
@@ -49,7 +63,15 @@ function Register({ validation, isSaving }) {
               required
               minLength="4"
               maxLength="16"
+              autoComplete="current-password"
             />
+            <span
+              className={cn("form__error", {
+                "form__error_active": errors.submit,
+              })}
+            >
+              {errors.submit || ""}
+            </span>
           </fieldset>
         }
       ></Form>
@@ -59,6 +81,9 @@ function Register({ validation, isSaving }) {
           Войти
         </Link>
       </p>
+      <ClosablePopup>
+        <InfoTooltip isSuccess={isSuccess} isOpen={isOpen} onClose={onClose} />
+      </ClosablePopup>
     </section>
   );
 }

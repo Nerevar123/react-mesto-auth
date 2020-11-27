@@ -7,6 +7,9 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isSaving, validation }) {
 
   React.useEffect(() => {
     resetForm();
+    return () => {
+      resetForm();
+    };
   }, [isOpen, resetForm]);
 
   function handleSubmit(e) {

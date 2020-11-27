@@ -13,6 +13,9 @@ function EditAvatarPopup({
 
   React.useEffect(() => {
     resetForm();
+    return () => {
+      resetForm();
+    };
   }, [isOpen, resetForm]);
 
   function handleSubmit(e) {

@@ -1,8 +1,9 @@
 import React from "react";
+import cn from "classnames";
 import Form from "./Form";
 import Label from "./Label";
 
-function Login({ validation, isSaving }) {
+function Login({ validation, isSaving, onAuthorize }) {
   const { values, errors, handleChange, isValid, resetForm } = validation;
 
   React.useEffect(() => {
@@ -11,8 +12,10 @@ function Login({ validation, isSaving }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(values);
-    resetForm();
+    onAuthorize({
+      email: values.email || "",
+      password: values.password || "",
+    });
   }
 
   return (
@@ -24,6 +27,7 @@ function Login({ validation, isSaving }) {
         isDisabled={!isValid}
         isSaving={isSaving}
         isBlack={true}
+        errors={errors}
         buttonText="Войти"
         children={
           <fieldset className="login__fields">
@@ -36,6 +40,7 @@ function Login({ validation, isSaving }) {
               isBlack
               type="email"
               required
+              autoComplete="username"
             />
             <Label
               values={values}
@@ -47,7 +52,15 @@ function Login({ validation, isSaving }) {
               type="password"
               required
               minLength="4"
+              autoComplete="current-password"
             />
+            <span
+              className={cn("form__error", {
+                "form__error_active": errors.submit,
+              })}
+            >
+              {errors.submit || ""}
+            </span>
           </fieldset>
         }
       ></Form>

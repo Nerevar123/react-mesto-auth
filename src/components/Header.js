@@ -1,31 +1,60 @@
 import React from "react";
-import logo from "../images/header-logo.svg";
+import cn from "classnames";
 import { Link } from "react-router-dom";
+import logo from "../images/header-logo.svg";
+import useWindowSize from "../hooks/useWindowSize";
 
-function Header({ button }) {
+function Header({ button, username, onLogout }) {
+  const size = useWindowSize();
+  const [isButtonClicked, setIsButtonClicked] = React.useState(false);
+
+  function handleButtonClick() {
+    setIsButtonClicked(!isButtonClicked);
+  }
   return (
     <header className="header">
       <img src={logo} alt="Mesto логотип" className="header__logo" />
       {button === "login" && (
-        <Link to="/sign-in" className="header__link link">
+        <Link
+          to="/sign-in"
+          className="header__link header__link_type_login link"
+        >
           Войти
         </Link>
       )}
       {button === "register" && (
-        <Link to="/sign-up" className="header__link link">
+        <Link
+          to="/sign-up"
+          className="header__link header__link_type_login link"
+        >
           Регистрация
         </Link>
       )}
       {button === "isLogged" && (
-        <div className="header__text-container">
-          <span className="header__name">email@mail.com</span>
-          <Link
-            to="/sign-up"
-            className="header__link header__link_type_logout link"
+        <>
+          {size.width < 769 && (
+            <button
+              className={cn("header__menu-button", "button", {
+                "header__menu-button_clicked": isButtonClicked,
+              })}
+              onClick={handleButtonClick}
+            />
+          )}
+          <div
+            className={cn("header__text-container", {
+              "header__text-container_closed": !isButtonClicked,
+            })}
           >
-            Выйти
-          </Link>
-        </div>
+            <span className="header__name">{username}</span>
+            <Link
+              to="/sign-in"
+              className="header__link header__link_type_logout link"
+              onClick={onLogout}
+            >
+              Выйти
+            </Link>
+          </div>
+        </>
       )}
     </header>
   );

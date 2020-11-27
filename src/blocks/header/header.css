@@ -1,6 +1,9 @@
 @import url(./__logo/header__logo.css);
 @import url(./__text-container/header__text-container.css);
 @import url(./__name/header__name.css);
+@import url(./__menu-button/header__menu-button.css);
+@import url(./__link/_type/_login/header__link_type_login.css);
+@import url(./__link/_type/_logout/header__link_type_logout.css);
 
 .header {
   padding-top: 44px;
@@ -11,9 +14,16 @@
   justify-content: space-between;
 }
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 768px) {
   .header {
-    padding-top: 28px;
+    padding-top: 0;
     padding-bottom: 32px;
+    display: grid;
+    grid-template-rows: repeat(2, minmax(min-content, max-content));
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+      "menu menu"
+      "logo button";
+    align-items: center;
   }
 }

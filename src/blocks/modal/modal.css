@@ -5,7 +5,7 @@
 @import url(./__image/modal__image.css);
 @import url(./__caption/modal__caption.css);
 @import url(./__lightbox/modal__lightbox.css);
-
+@import url(./__icon/modal__icon.css);
 
 .modal {
   visibility: hidden;

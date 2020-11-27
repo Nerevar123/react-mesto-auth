@@ -1,5 +1,11 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import {
+  HashRouter,
+  Route,
+  Switch,
+  useHistory,
+  withRouter,
+} from "react-router-dom";
 import Register from "./Register";
 import Login from "./Login";
 import Header from "./Header";
@@ -12,29 +18,35 @@ import ConfirmPopup from "./ConfirmPopup";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
-import { api } from "../utils/api";
+import { api, authApi } from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import useFormWithValidation from "../hooks/useFormWithValidation";
 
 function App() {
+  const history = useHistory();
+  const validation = useFormWithValidation();
   const [currentUser, setCurrentUser] = React.useState();
   const [cards, setCards] = React.useState([]);
   const [isEditProfilePopupOpen, setEditProfileClick] = React.useState(false);
   const [isAddPlacePopupOpen, setAddPlaceClick] = React.useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarClick] = React.useState(false);
   const [isConfirmPopupOpen, setConfirmClick] = React.useState(false);
+  const [isRegisterPopupOpen, setRegisterClick] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState({});
   const [deletedCard, setDeletedCard] = React.useState({});
   const [isSaving, setIsSaving] = React.useState(false);
   const [isLoggedIn, setIsLoggedIn] = React.useState(true);
+  const [username, setUsername] = React.useState();
+  const [isSuccess, setIsSuccess] = React.useState(false);
 
   React.useEffect(() => {
-    Promise.all([api.getInitCards(), api.getUserInfo()])
+    Promise.all([api.getInitCards(), api.getUserInfo(), handleTokenCheck()])
       .then(([cards, user]) => {
         setCurrentUser(user);
         setCards(cards);
       })
       .catch((err) => console.log(err));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleEditProfileClick() {
@@ -56,6 +68,72 @@ function App() {
 
   function handleCardClick(card) {
     setSelectedCard(card);
+  }
+
+  function handleRegisterClick() {
+    if (isSuccess) {
+      history.push("/sign-in");
+    }
+    closeAllPopups();
+  }
+
+  function handleLogin() {
+    setIsLoggedIn(true);
+  }
+
+  function handleLogout() {
+    setIsLoggedIn(false);
+    localStorage.removeItem("token");
+    history.push("/login");
+  }
+
+  function handleAuthorize(user) {
+    authApi
+      .authorize(user)
+      .then((data) => {
+        if (data.token) {
+          handleLogin();
+          setUsername(user.email);
+          history.push("/");
+        }
+      })
+      .catch((err) => {
+        if (err === "Incorrect email address or password") {
+          validation.setErrors({ submit: "Неверный логин или пароль" });
+        } else {
+          validation.setErrors({ submit: err });
+        }
+        console.log(err);
+      });
+  }
+
+  function handleRegister(user) {
+    authApi
+      .register(user)
+      .then(() => {
+        setIsSuccess(true);
+        setRegisterClick(true);
+      })
+      .catch((err) => {
+        setRegisterClick(true);
+        validation.setErrors({ submit: err });
+        console.log(err);
+      });
+  }
+
+  function handleTokenCheck() {
+    if (localStorage.getItem("token")) {
+      const token = localStorage.getItem("token");
+      authApi
+        .checkToken(token)
+        .then((res) => {
+          setUsername(res.data.email);
+          history.push("/");
+        })
+        .catch((err) => console.log(err));
+    } else {
+      setIsLoggedIn(false);
+    }
   }
 
   function handleCardLike(card) {
@@ -113,36 +191,27 @@ function App() {
     setAddPlaceClick(false);
     setEditAvatarClick(false);
     setConfirmClick(false);
+    setRegisterClick(false);
     setSelectedCard({});
     setDeletedCard({});
     setIsSaving(false);
+    setTimeout(() => {
+      setIsSuccess(false);
+    }, 500);
   }
-
-  function handleLogin() {
-    setIsLoggedIn(!isLoggedIn);
-  }
-
-  const validation = useFormWithValidation();
 
   return (
     <div className="page__content">
       <CurrentUserContext.Provider value={currentUser}>
+        {/* <HashRouter basename="/"> */}
         <Switch>
-          <Route path="/sign-up">
-            <>
-              <Header button="login" />
-              <Register validation={validation} />
-            </>
-          </Route>
-          <Route path="/sign-in">
-            <>
-              <Header button="register" />
-              <Login handleLogin={handleLogin} validation={validation} />
-            </>
-          </Route>
           <ProtectedRoute exact path="/" loggedIn={isLoggedIn}>
             <>
-              <Header button="isLogged" />
+              <Header
+                button="isLogged"
+                username={username}
+                onLogout={handleLogout}
+              />
               <Main
                 onEditProfile={handleEditProfileClick}
                 onAddPlace={handleAddPlaceClick}
@@ -155,8 +224,30 @@ function App() {
               <Footer />
             </>
           </ProtectedRoute>
+          <Route path="/sign-up">
+            <>
+              <Header button="login" />
+              <Register
+                validation={validation}
+                onRegister={handleRegister}
+                isOpen={isRegisterPopupOpen}
+                onClose={handleRegisterClick}
+                isSuccess={isSuccess}
+              />
+            </>
+          </Route>
+          <Route path="/sign-in">
+            <>
+              <Header button="register" />
+              <Login onAuthorize={handleAuthorize} validation={validation} />
+            </>
+          </Route>
+          <Route path="*">
+            {/* <PageNotFound /> */}
+            <h2>PageNotFound</h2>
+          </Route>
         </Switch>
-        {isEditProfilePopupOpen ? (
+        {isEditProfilePopupOpen && (
           <ClosablePopup>
             <EditProfilePopup
               isOpen={isEditProfilePopupOpen}
@@ -166,10 +257,8 @@ function App() {
               validation={validation}
             />
           </ClosablePopup>
-        ) : (
-          ""
         )}
-        {isAddPlacePopupOpen ? (
+        {isAddPlacePopupOpen && (
           <ClosablePopup>
             <AddPlacePopup
               isOpen={isAddPlacePopupOpen}
@@ -179,10 +268,8 @@ function App() {
               validation={validation}
             />
           </ClosablePopup>
-        ) : (
-          ""
         )}
-        {isEditAvatarPopupOpen ? (
+        {isEditAvatarPopupOpen && (
           <ClosablePopup>
             <EditAvatarPopup
               isOpen={isEditAvatarPopupOpen}
@@ -192,17 +279,13 @@ function App() {
               validation={validation}
             />
           </ClosablePopup>
-        ) : (
-          ""
         )}
-        {selectedCard.link ? (
+        {selectedCard.link && (
           <ClosablePopup>
             <ImagePopup card={selectedCard} onClose={closeAllPopups} />
           </ClosablePopup>
-        ) : (
-          ""
         )}
-        {isConfirmPopupOpen ? (
+        {isConfirmPopupOpen && (
           <ClosablePopup>
             <ConfirmPopup
               isOpen={isConfirmPopupOpen}
@@ -211,9 +294,8 @@ function App() {
               isSaving={isSaving}
             />
           </ClosablePopup>
-        ) : (
-          ""
         )}
+        {/* </HashRouter> */}
       </CurrentUserContext.Provider>
     </div>
   );

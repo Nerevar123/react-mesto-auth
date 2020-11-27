@@ -29,6 +29,9 @@ function EditProfilePopup({
       });
       setIsValid(true);
     }
+    return () => {
+      resetForm();
+    };
   }, [currentUser, resetForm, setIsValid]);
 
   function handleSubmit(e) {
