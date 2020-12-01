@@ -6,7 +6,7 @@ import fail from "../images/login-fail.png";
 function InfoTooltip({ isOpen, onClose, isSuccess, successText }) {
   return (
     <section
-      className={cn("modal", "modal_type_info", { modal_opened: isOpen })}
+      className={cn("modal", "modal_type_info")}
     >
       <div className="modal__container">
         {isSuccess ? (

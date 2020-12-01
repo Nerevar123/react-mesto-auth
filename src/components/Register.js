@@ -5,6 +5,7 @@ import Form from "./Form";
 import Label from "./Label";
 import InfoTooltip from "./InfoTooltip";
 import ClosablePopup from "./hocs/ClosablePopup";
+import { CSSTransition } from "react-transition-group";
 
 function Register({
   validation,
@@ -67,7 +68,7 @@ function Register({
             />
             <span
               className={cn("form__error", {
-                "form__error_active": errors.submit,
+                form__error_active: errors.submit,
               })}
             >
               {errors.submit || ""}
@@ -81,14 +82,16 @@ function Register({
           Войти
         </Link>
       </p>
-      <ClosablePopup>
-        <InfoTooltip
-          isSuccess={isSuccess}
-          isOpen={isOpen}
-          onClose={onClose}
-          successText="Вы успешно зарегистрировались!"
-        />
-      </ClosablePopup>
+      <CSSTransition in={isOpen} timeout={300} classNames="modal" unmountOnExit>
+        <ClosablePopup>
+          <InfoTooltip
+            isSuccess={isSuccess}
+            isOpen={isOpen}
+            onClose={onClose}
+            successText="Вы успешно зарегистрировались!"
+          />
+        </ClosablePopup>
+      </CSSTransition>
     </section>
   );
 }
