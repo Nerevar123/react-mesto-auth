@@ -13,7 +13,7 @@
     "react-scripts": "^4.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start HOST=192.168.0.130",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

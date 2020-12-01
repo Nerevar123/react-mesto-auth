@@ -3,7 +3,7 @@ import cn from "classnames";
 import success from "../images/login-success.png";
 import fail from "../images/login-fail.png";
 
-function InfoTooltip({ isOpen, onClose, isSuccess }) {
+function InfoTooltip({ isOpen, onClose, isSuccess, successText }) {
   return (
     <section
       className={cn("modal", "modal_type_info", { modal_opened: isOpen })}
@@ -12,7 +12,7 @@ function InfoTooltip({ isOpen, onClose, isSuccess }) {
         {isSuccess ? (
           <>
             <img className="modal__icon" src={success} alt="result" />
-            <h3 className="modal__title">Вы успешно зарегистрировались!</h3>
+            <h3 className="modal__title">{successText}</h3>
           </>
         ) : (
           <>

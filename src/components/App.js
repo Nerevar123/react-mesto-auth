@@ -1,16 +1,11 @@
 import React from "react";
-import {
-  HashRouter,
-  Route,
-  Switch,
-  useHistory,
-  withRouter,
-} from "react-router-dom";
+import { Router, Route, Switch, useHistory } from "react-router-dom";
 import Register from "./Register";
 import Login from "./Login";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
+import PageNotFound from "./PageNotFound";
 import ClosablePopup from "./hocs/ClosablePopup";
 import ProtectedRoute from "./hocs/ProtectedRoute";
 import ImagePopup from "./ImagePopup";
@@ -203,99 +198,99 @@ function App() {
   return (
     <div className="page__content">
       <CurrentUserContext.Provider value={currentUser}>
-        {/* <HashRouter basename="/"> */}
-        <Switch>
-          <ProtectedRoute exact path="/" loggedIn={isLoggedIn}>
-            <>
-              <Header
-                button="isLogged"
-                username={username}
-                onLogout={handleLogout}
-              />
-              <Main
-                onEditProfile={handleEditProfileClick}
-                onAddPlace={handleAddPlaceClick}
-                onEditAvatar={handleEditAvatarClick}
-                onCardClick={handleCardClick}
-                cards={cards}
-                onCardLike={handleCardLike}
-                onDeleteClick={handleDeleteClick}
-              />
-              <Footer />
-            </>
-          </ProtectedRoute>
-          <Route path="/sign-up">
-            <>
-              <Header button="login" />
-              <Register
+        <Router history={history} basename="/">
+          <Switch>
+            <ProtectedRoute exact path="/" loggedIn={isLoggedIn}>
+              <>
+                <Header
+                  button="isLogged"
+                  username={username}
+                  onLogout={handleLogout}
+                />
+                <Main
+                  onEditProfile={handleEditProfileClick}
+                  onAddPlace={handleAddPlaceClick}
+                  onEditAvatar={handleEditAvatarClick}
+                  onCardClick={handleCardClick}
+                  cards={cards}
+                  onCardLike={handleCardLike}
+                  onDeleteClick={handleDeleteClick}
+                />
+                <Footer />
+              </>
+            </ProtectedRoute>
+            <Route exact path="/sign-up">
+              <>
+                <Header button="login" />
+                <Register
+                  validation={validation}
+                  onRegister={handleRegister}
+                  isOpen={isRegisterPopupOpen}
+                  onClose={handleRegisterClick}
+                  isSuccess={isSuccess}
+                />
+              </>
+            </Route>
+            <Route exact path="/sign-in">
+              <>
+                <Header button="register" />
+                <Login onAuthorize={handleAuthorize} validation={validation} />
+              </>
+            </Route>
+            <Route path="*">
+              <Header button="notFound" />
+              <PageNotFound />
+            </Route>
+          </Switch>
+          {isEditProfilePopupOpen && (
+            <ClosablePopup>
+              <EditProfilePopup
+                isOpen={isEditProfilePopupOpen}
+                onClose={closeAllPopups}
+                onUpdateUser={handleUpdateUser}
+                isSaving={isSaving}
                 validation={validation}
-                onRegister={handleRegister}
-                isOpen={isRegisterPopupOpen}
-                onClose={handleRegisterClick}
-                isSuccess={isSuccess}
               />
-            </>
-          </Route>
-          <Route path="/sign-in">
-            <>
-              <Header button="register" />
-              <Login onAuthorize={handleAuthorize} validation={validation} />
-            </>
-          </Route>
-          <Route path="*">
-            {/* <PageNotFound /> */}
-            <h2>PageNotFound</h2>
-          </Route>
-        </Switch>
-        {isEditProfilePopupOpen && (
-          <ClosablePopup>
-            <EditProfilePopup
-              isOpen={isEditProfilePopupOpen}
-              onClose={closeAllPopups}
-              onUpdateUser={handleUpdateUser}
-              isSaving={isSaving}
-              validation={validation}
-            />
-          </ClosablePopup>
-        )}
-        {isAddPlacePopupOpen && (
-          <ClosablePopup>
-            <AddPlacePopup
-              isOpen={isAddPlacePopupOpen}
-              onClose={closeAllPopups}
-              onAddPlace={handleAddPlaceSubmit}
-              isSaving={isSaving}
-              validation={validation}
-            />
-          </ClosablePopup>
-        )}
-        {isEditAvatarPopupOpen && (
-          <ClosablePopup>
-            <EditAvatarPopup
-              isOpen={isEditAvatarPopupOpen}
-              onClose={closeAllPopups}
-              onUpdateAvatar={handleUpdateAvatar}
-              isSaving={isSaving}
-              validation={validation}
-            />
-          </ClosablePopup>
-        )}
-        {selectedCard.link && (
-          <ClosablePopup>
-            <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-          </ClosablePopup>
-        )}
-        {isConfirmPopupOpen && (
-          <ClosablePopup>
-            <ConfirmPopup
-              isOpen={isConfirmPopupOpen}
-              onClose={closeAllPopups}
-              onConfirm={handleCardDelete}
-              isSaving={isSaving}
-            />
-          </ClosablePopup>
-        )}
-        {/* </HashRouter> */}
+            </ClosablePopup>
+          )}
+          {isAddPlacePopupOpen && (
+            <ClosablePopup>
+              <AddPlacePopup
+                isOpen={isAddPlacePopupOpen}
+                onClose={closeAllPopups}
+                onAddPlace={handleAddPlaceSubmit}
+                isSaving={isSaving}
+                validation={validation}
+              />
+            </ClosablePopup>
+          )}
+          {isEditAvatarPopupOpen && (
+            <ClosablePopup>
+              <EditAvatarPopup
+                isOpen={isEditAvatarPopupOpen}
+                onClose={closeAllPopups}
+                onUpdateAvatar={handleUpdateAvatar}
+                isSaving={isSaving}
+                validation={validation}
+              />
+            </ClosablePopup>
+          )}
+          {selectedCard.link && (
+            <ClosablePopup>
+              <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+            </ClosablePopup>
+          )}
+          {isConfirmPopupOpen && (
+            <ClosablePopup>
+              <ConfirmPopup
+                isOpen={isConfirmPopupOpen}
+                onClose={closeAllPopups}
+                onConfirm={handleCardDelete}
+                isSaving={isSaving}
+              />
+            </ClosablePopup>
+          )}
+        </Router>
       </CurrentUserContext.Provider>
     </div>
   );

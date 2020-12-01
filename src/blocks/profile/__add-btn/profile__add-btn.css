@@ -11,7 +11,7 @@
   background: url(../../../images/profile-add-btn-hover.svg), black;
 }
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 915px){
   .profile__add-btn {
     max-width: 282px;
     width: 100%;

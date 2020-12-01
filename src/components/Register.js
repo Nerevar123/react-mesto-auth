@@ -82,7 +82,12 @@ function Register({
         </Link>
       </p>
       <ClosablePopup>
-        <InfoTooltip isSuccess={isSuccess} isOpen={isOpen} onClose={onClose} />
+        <InfoTooltip
+          isSuccess={isSuccess}
+          isOpen={isOpen}
+          onClose={onClose}
+          successText="Вы успешно зарегистрировались!"
+        />
       </ClosablePopup>
     </section>
   );

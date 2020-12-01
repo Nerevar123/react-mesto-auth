@@ -30,9 +30,14 @@ function Header({ button, username, onLogout }) {
           Регистрация
         </Link>
       )}
+      {button === "notFound" && (
+        <Link to="/" className="header__link header__link_type_login link">
+          На главную
+        </Link>
+      )}
       {button === "isLogged" && (
         <>
-          {size.width < 769 && (
+          {size.width < 915 && (
             <button
               className={cn("header__menu-button", "button", {
                 "header__menu-button_clicked": isButtonClicked,

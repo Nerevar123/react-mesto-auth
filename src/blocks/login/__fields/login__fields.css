@@ -4,7 +4,7 @@
   margin: 0 0 230px;
 }
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 915px){
   .login__fields {
     margin-bottom: 172px;
   }

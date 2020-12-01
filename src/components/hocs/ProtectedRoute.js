@@ -2,9 +2,9 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
 function ProtectedRoute(props) {
-  const { children, ...rest } = props;
+  const { children, path, ...rest } = props;
   return (
-    <Route>
+    <Route path={path}>
       {() =>
         props.loggedIn ? (
           <>{React.cloneElement(children, { ...rest })}</>

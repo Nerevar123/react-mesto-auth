@@ -3,7 +3,7 @@
   line-height: 1.22;
 }
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 915px){
   .header__text-container {
     height: 62px;
     padding-top: 40px;
