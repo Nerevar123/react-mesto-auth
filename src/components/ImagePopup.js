@@ -3,11 +3,7 @@ import cn from "classnames";
 
 function ImagePopup({ card, onClose }) {
   return (
-    <section
-      className={cn("modal", "modal_type_lightbox", {
-        modal_opened: card.link,
-      })}
-    >
+    <section className={cn("modal", "modal_type_lightbox")}>
       <div className="modal__lightbox">
         <figure className="modal__figure">
           <img src={card.link} alt={card.link} className="modal__image" />

@@ -16,6 +16,7 @@ import AddPlacePopup from "./AddPlacePopup";
 import { api, authApi } from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import useFormWithValidation from "../hooks/useFormWithValidation";
+import { CSSTransition } from "react-transition-group";
 
 function App() {
   const history = useHistory();
@@ -242,7 +243,12 @@ function App() {
               <PageNotFound />
             </Route>
           </Switch>
-          {isEditProfilePopupOpen && (
+          <CSSTransition
+            in={isEditProfilePopupOpen}
+            timeout={300}
+            classNames="modal"
+            unmountOnExit
+          >
             <ClosablePopup>
               <EditProfilePopup
                 isOpen={isEditProfilePopupOpen}
@@ -252,8 +258,13 @@ function App() {
                 validation={validation}
               />
             </ClosablePopup>
-          )}
-          {isAddPlacePopupOpen && (
+          </CSSTransition>
+          <CSSTransition
+            in={isAddPlacePopupOpen}
+            timeout={300}
+            classNames="modal"
+            unmountOnExit
+          >
             <ClosablePopup>
               <AddPlacePopup
                 isOpen={isAddPlacePopupOpen}
@@ -263,8 +274,13 @@ function App() {
                 validation={validation}
               />
             </ClosablePopup>
-          )}
-          {isEditAvatarPopupOpen && (
+          </CSSTransition>
+          <CSSTransition
+            in={isEditAvatarPopupOpen}
+            timeout={300}
+            classNames="modal"
+            unmountOnExit
+          >
             <ClosablePopup>
               <EditAvatarPopup
                 isOpen={isEditAvatarPopupOpen}
@@ -274,13 +290,23 @@ function App() {
                 validation={validation}
               />
             </ClosablePopup>
-          )}
-          {selectedCard.link && (
+          </CSSTransition>
+          <CSSTransition
+            in={selectedCard.link}
+            timeout={300}
+            classNames="modal"
+            unmountOnExit
+          >
             <ClosablePopup>
               <ImagePopup card={selectedCard} onClose={closeAllPopups} />
             </ClosablePopup>
-          )}
-          {isConfirmPopupOpen && (
+          </CSSTransition>
+          <CSSTransition
+            in={isConfirmPopupOpen}
+            timeout={300}
+            classNames="modal"
+            unmountOnExit
+          >
             <ClosablePopup>
               <ConfirmPopup
                 isOpen={isConfirmPopupOpen}
@@ -289,7 +315,7 @@ function App() {
                 isSaving={isSaving}
               />
             </ClosablePopup>
-          )}
+          </CSSTransition>
         </Router>
       </CurrentUserContext.Provider>
     </div>

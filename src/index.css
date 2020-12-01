@@ -12,7 +12,6 @@
 @import url(./blocks/footer/footer.css);
 @import url(./blocks/button/button.css);
 @import url(./blocks/modal/modal.css);
-@import url(./blocks/modal/_opened/modal_opened.css);
 @import url(./blocks/modal/_type/modal_type_lightbox.css);
 @import url(./blocks/form/form.css);
 @import url(./blocks/form/__error/_active/form__error_active.css);

@@ -14,9 +14,7 @@ function PopupWithForm({
   isDisabled,
 }) {
   return (
-    <section
-      className={cn("modal", `modal_type_${name}`, { modal_opened: isOpen })}
-    >
+    <section className={cn("modal", `modal_type_${name}`)}>
       <div className="modal__container">
         <h3 className="modal__title">{title}</h3>
         <Form
