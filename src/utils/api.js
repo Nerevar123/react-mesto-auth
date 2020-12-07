@@ -88,14 +88,7 @@ export default class Api {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify(user),
-    })
-      .then(this._checkError)
-      .then((data) => {
-        if (data.token) {
-          localStorage.setItem("token", data.token);
-          return data;
-        }
-      });
+    }).then(this._checkError);
   }
 
   checkToken(token) {

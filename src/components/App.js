@@ -1,5 +1,5 @@
 import React from "react";
-import { Router, Route, Switch, useHistory } from "react-router-dom";
+import { Router, Route, Switch, useHistory, Redirect } from "react-router-dom";
 import Register from "./Register";
 import Login from "./Login";
 import Header from "./Header";
@@ -31,7 +31,7 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState({});
   const [deletedCard, setDeletedCard] = React.useState({});
   const [isSaving, setIsSaving] = React.useState(false);
-  const [isLoggedIn, setIsLoggedIn] = React.useState(true);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(null);
   const [username, setUsername] = React.useState();
   const [isSuccess, setIsSuccess] = React.useState(false);
 
@@ -75,6 +75,7 @@ function App() {
 
   function handleLogin() {
     setIsLoggedIn(true);
+    history.push("/");
   }
 
   function handleLogout() {
@@ -88,9 +89,9 @@ function App() {
       .authorize(user)
       .then((data) => {
         if (data.token) {
+          localStorage.setItem("token", data.token);
           handleLogin();
           setUsername(user.email);
-          history.push("/");
         }
       })
       .catch((err) => {
@@ -123,8 +124,8 @@ function App() {
       authApi
         .checkToken(token)
         .then((res) => {
+          handleLogin();
           setUsername(res.data.email);
-          history.push("/");
         })
         .catch((err) => console.log(err));
     } else {
@@ -196,6 +197,16 @@ function App() {
     }, 500);
   }
 
+  if (isLoggedIn === null) {
+    return (
+      <>
+        <section className="profile">
+          <h1 className="profile__loading">Загрузка...</h1>
+        </section>
+      </>
+    );
+  }
+
   return (
     <div className="page__content">
       <CurrentUserContext.Provider value={currentUser}>
@@ -241,6 +252,9 @@ function App() {
             <Route path="*">
               <Header button="notFound" />
               <PageNotFound />
+            </Route>
+            <Route>
+              {isLoggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
             </Route>
           </Switch>
           <CSSTransition
