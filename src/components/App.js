@@ -5,7 +5,6 @@ import Login from "./Login";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import PageNotFound from "./PageNotFound";
 import ClosablePopup from "./hocs/ClosablePopup";
 import ProtectedRoute from "./hocs/ProtectedRoute";
 import ImagePopup from "./ImagePopup";
@@ -34,6 +33,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(null);
   const [username, setUsername] = React.useState();
   const [isSuccess, setIsSuccess] = React.useState(false);
+  const nodeRef = React.useRef(null);
 
   React.useEffect(() => {
     Promise.all([api.getInitCards(), api.getUserInfo(), handleTokenCheck()])
@@ -249,15 +249,12 @@ function App() {
                 <Login onAuthorize={handleAuthorize} validation={validation} />
               </>
             </Route>
-            <Route path="*">
-              <Header button="notFound" />
-              <PageNotFound />
-            </Route>
             <Route>
               {isLoggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
             </Route>
           </Switch>
           <CSSTransition
+            nodeRef={nodeRef}
             in={isEditProfilePopupOpen}
             timeout={300}
             classNames="modal"
@@ -265,15 +262,16 @@ function App() {
           >
             <ClosablePopup>
               <EditProfilePopup
-                isOpen={isEditProfilePopupOpen}
                 onClose={closeAllPopups}
                 onUpdateUser={handleUpdateUser}
                 isSaving={isSaving}
                 validation={validation}
+                refs={nodeRef}
               />
             </ClosablePopup>
           </CSSTransition>
           <CSSTransition
+            nodeRef={nodeRef}
             in={isAddPlacePopupOpen}
             timeout={300}
             classNames="modal"
@@ -281,15 +279,16 @@ function App() {
           >
             <ClosablePopup>
               <AddPlacePopup
-                isOpen={isAddPlacePopupOpen}
                 onClose={closeAllPopups}
                 onAddPlace={handleAddPlaceSubmit}
                 isSaving={isSaving}
                 validation={validation}
+                refs={nodeRef}
               />
             </ClosablePopup>
           </CSSTransition>
           <CSSTransition
+            nodeRef={nodeRef}
             in={isEditAvatarPopupOpen}
             timeout={300}
             classNames="modal"
@@ -297,25 +296,31 @@ function App() {
           >
             <ClosablePopup>
               <EditAvatarPopup
-                isOpen={isEditAvatarPopupOpen}
                 onClose={closeAllPopups}
                 onUpdateAvatar={handleUpdateAvatar}
                 isSaving={isSaving}
                 validation={validation}
+                refs={nodeRef}
               />
             </ClosablePopup>
           </CSSTransition>
           <CSSTransition
-            in={selectedCard.link}
+            nodeRef={nodeRef}
+            in={Boolean(selectedCard.link)}
             timeout={300}
             classNames="modal"
             unmountOnExit
           >
             <ClosablePopup>
-              <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+              <ImagePopup
+                card={selectedCard}
+                onClose={closeAllPopups}
+                refs={nodeRef}
+              />
             </ClosablePopup>
           </CSSTransition>
           <CSSTransition
+            nodeRef={nodeRef}
             in={isConfirmPopupOpen}
             timeout={300}
             classNames="modal"
@@ -323,10 +328,10 @@ function App() {
           >
             <ClosablePopup>
               <ConfirmPopup
-                isOpen={isConfirmPopupOpen}
                 onClose={closeAllPopups}
                 onConfirm={handleCardDelete}
                 isSaving={isSaving}
+                refs={nodeRef}
               />
             </ClosablePopup>
           </CSSTransition>

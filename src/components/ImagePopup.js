@@ -1,9 +1,8 @@
 import React from "react";
-import cn from "classnames";
 
-function ImagePopup({ card, onClose }) {
+function ImagePopup({ card, onClose, refs }) {
   return (
-    <section className={cn("modal", "modal_type_lightbox")}>
+    <section className="modal modal_type_lightbox" ref={refs}>
       <div className="modal__lightbox">
         <figure className="modal__figure">
           <img src={card.link} alt={card.link} className="modal__image" />
@@ -13,7 +12,7 @@ function ImagePopup({ card, onClose }) {
           className="modal__close-btn button"
           type="button"
           onClick={onClose}
-        ></button>
+        />
       </div>
     </section>
   );

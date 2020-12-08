@@ -15,6 +15,7 @@ function Register({
   isOpen,
   onClose,
 }) {
+  const nodeRef = React.useRef(null);
   const { values, errors, handleChange, isValid, resetForm } = validation;
 
   React.useEffect(() => {
@@ -68,7 +69,7 @@ function Register({
             />
             <span
               className={cn("form__error", {
-                form__error_active: errors.submit,
+                "form__error_active": errors.submit,
               })}
             >
               {errors.submit || ""}
@@ -82,13 +83,19 @@ function Register({
           Войти
         </Link>
       </p>
-      <CSSTransition in={isOpen} timeout={300} classNames="modal" unmountOnExit>
+      <CSSTransition
+        nodeRef={nodeRef}
+        in={isOpen}
+        timeout={300}
+        classNames="modal"
+        unmountOnExit
+      >
         <ClosablePopup>
           <InfoTooltip
             isSuccess={isSuccess}
-            isOpen={isOpen}
             onClose={onClose}
             successText="Вы успешно зарегистрировались!"
+            refs={nodeRef}
           />
         </ClosablePopup>
       </CSSTransition>

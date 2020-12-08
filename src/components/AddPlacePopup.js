@@ -2,7 +2,7 @@ import React from "react";
 import PopupWithForm from "./PopupWithForm";
 import Label from "./Label";
 
-function AddPlacePopup({ isOpen, onClose, onAddPlace, isSaving, validation }) {
+function AddPlacePopup({ onClose, onAddPlace, isSaving, validation, refs }) {
   const { values, handleChange, errors, isValid, resetForm } = validation;
 
   React.useEffect(() => {
@@ -10,7 +10,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isSaving, validation }) {
     return () => {
       resetForm();
     };
-  }, [isOpen, resetForm]);
+  }, [resetForm]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -26,11 +26,11 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isSaving, validation }) {
       title="Новое место"
       name="place"
       buttonText="Создать"
-      isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
       isSaving={isSaving}
       isDisabled={!isValid}
+      refs={refs}
       children={
         <fieldset className="form__fields">
           <Label

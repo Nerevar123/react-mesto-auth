@@ -1,13 +1,10 @@
 import React from "react";
-import cn from "classnames";
 import success from "../images/login-success.png";
 import fail from "../images/login-fail.png";
 
-function InfoTooltip({ isOpen, onClose, isSuccess, successText }) {
+function InfoTooltip({ onClose, isSuccess, successText, refs }) {
   return (
-    <section
-      className={cn("modal", "modal_type_info")}
-    >
+    <section className="modal modal_type_info" ref={refs}>
       <div className="modal__container">
         {isSuccess ? (
           <>

@@ -4,11 +4,11 @@ import Label from "./Label";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function EditProfilePopup({
-  isOpen,
   onClose,
   onUpdateUser,
   isSaving,
   validation,
+  refs,
 }) {
   const {
     values,
@@ -31,6 +31,7 @@ function EditProfilePopup({
     }
     return () => {
       resetForm();
+      setIsValid(false);
     };
   }, [currentUser, resetForm, setIsValid]);
 
@@ -48,11 +49,11 @@ function EditProfilePopup({
       title="Редактировать профиль"
       name="title"
       buttonText="Сохранить"
-      isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
       isSaving={isSaving}
       isDisabled={!isValid}
+      refs={refs}
       children={
         <fieldset className="form__fields">
           <Label

@@ -3,11 +3,11 @@ import PopupWithForm from "./PopupWithForm";
 import Label from "./Label";
 
 function EditAvatarPopup({
-  isOpen,
   onClose,
   onUpdateAvatar,
   isSaving,
   validation,
+  refs,
 }) {
   const { values, handleChange, errors, isValid, resetForm } = validation;
 
@@ -16,7 +16,7 @@ function EditAvatarPopup({
     return () => {
       resetForm();
     };
-  }, [isOpen, resetForm]);
+  }, [resetForm]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -31,11 +31,11 @@ function EditAvatarPopup({
       title="Обновить аватар"
       name="avatar"
       buttonText="Обновить"
-      isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
       isSaving={isSaving}
       isDisabled={!isValid}
+      refs={refs}
       children={
         <Label
           values={values}
